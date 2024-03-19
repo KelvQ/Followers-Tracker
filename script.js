@@ -1,5 +1,10 @@
+let currentResults = []; // Variable to store the current results
+let sorted = false; // Variable to track if the list is sorted
+
 // Function to compare two HTML files and display unique names from the first file
 function compareFiles() {
+    sorted = false;
+
     // Get the uploaded files
     const file1 = document.getElementById('file1').files[0];
     const file2 = document.getElementById('file2').files[0];
@@ -31,8 +36,11 @@ function compareFiles() {
                 return !content2.includes(item);
             });
 
+            // Store current results
+            currentResults = uniqueInFile1;
+
             // Display unique names in the results container
-            displayResults(uniqueInFile1);
+            displayResults(currentResults);
         }
     }
 
@@ -59,6 +67,16 @@ function extractNames(html) {
 function displayResults(results) {
     const resultsContainer = document.getElementById('results');
     resultsContainer.innerHTML = '';
+
+    // Add button for sorting alphabetically
+    const sortButton = document.createElement('button');
+    sortButton.textContent = sorted ? 'Original List' : 'Sort Alphabetically';
+    sortButton.style.backgroundColor = '#008CBA';
+    sortButton.addEventListener('click', function () {
+        toggleSort();
+    });
+    resultsContainer.appendChild(sortButton);
+
     if (results.length === 0) {
         resultsContainer.textContent = 'No unique names found in the first file.';
     } else {
@@ -70,4 +88,12 @@ function displayResults(results) {
         });
         resultsContainer.appendChild(ul);
     }
+}
+
+
+// Function to toggle between sorted and original list
+function toggleSort() {
+    sorted = !sorted;
+    const sortedResults = sorted ? currentResults.slice().sort() : currentResults;
+    displayResults(sortedResults);
 }
