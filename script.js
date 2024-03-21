@@ -78,7 +78,7 @@ function displayResults(results) {
     resultsContainer.appendChild(sortButton);
 
     if (results.length === 0) {
-        resultsContainer.textContent = 'No unique names found in the first file.';
+        resultsContainer.textContent = 'No unique names found';
     } else {
         const ul = document.createElement('ul');
         results.forEach(function (item) {
